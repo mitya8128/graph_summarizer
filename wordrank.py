@@ -4,24 +4,25 @@ import numpy as np
 import scipy
 import re
 
-from config import Configuration
+from config import conf
 from graph_utils import text2graph, find_cliques_all, adjacency_mat, make_graph, find_maxlen_clique
 from utils import text_cleaner, pymorphy_tagger
 
-conf = Configuration()
 model = conf.MODEL
 stopwords = conf.STOP_WORDS
 
 
-def wordrank(text: str) -> list:
+def wordrank(text: str, need_tag: bool) -> list:
     """returns clique with max len"""
-
     text_tagged = []
     text = text.split()
 
-    for element in text:
-        el = pymorphy_tagger(element, stopwords)
-        text_tagged.append(el)
+    if need_tag:
+        for element in text:
+            el = pymorphy_tagger(element, stopwords)
+            text_tagged.append(el)
+    else:
+        text_tagged = text
 
     text_mat = adjacency_mat(text_tagged)
     graph = make_graph(text_mat, text_tagged, 0.3)

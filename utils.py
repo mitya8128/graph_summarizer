@@ -3,11 +3,10 @@ import numpy as np
 import scipy
 import re
 
-from config import Configuration
+from config import conf
 from russian_tagsets import converters
 
 
-conf = Configuration()
 morph = conf.MORPH
 punct = conf.PUNCT
 model = conf.MODEL

@@ -8,13 +8,15 @@ import re
 from graph_utils import find_cliques_all
 from utils import text_cleaner
 from wordrank import wordrank
+from config import conf
 
-stop_words = stopwords.words('russian')
+
+stop_words = conf.STOP_WORDS
 
 
 # funcs for TextRank
-
 def read_article(file_name):
+    #TODO: think about reading files approach
     with open(file_name, 'rb') as f:
         text = f.readlines()
     text = text[0].decode("mac_cyrillic")
@@ -64,7 +66,7 @@ def build_similarity_matrix(sentences, stop_words):
     return similarity_matrix
 
 
-def generate_summary(sentences: list) -> list:
+def generate_summary(sentences: list, need_tag: bool) -> list:
     sentences_cleaned = []
     for i in range(len(sentences)):
         sentence_clean = text_cleaner(sentences[i], stop_words)
@@ -74,7 +76,7 @@ def generate_summary(sentences: list) -> list:
 
     ranked_list = []
     for i in range(len(sentences_cleaned_fix)):
-        sent_ranked = wordrank(sentences_cleaned_fix[i][0])
+        sent_ranked = wordrank(sentences_cleaned_fix[i][0], need_tag)
         ranked_list.append((sent_ranked, sentences_cleaned_fix[i][1]))
 
     ranked_list_notags = []
@@ -103,13 +105,18 @@ def generate_summary(sentences: list) -> list:
     return snts
 
 
-def generate_summary_loop(text, n, n_compression=True):
-
+def generate_summary_loop(need_tag: bool, n_compression: bool, text: list, n: int):
+    """
+    need_tag: use algorithms for taged/untaged vector models
+    n_comression: whether to apply the summarizer algorithm several times
+    text: text to apply (List, temporarily --> until i decide on the input method)
+    n: how many times to apply summarizer algorithm
+    """
     if n_compression:
-        abstract = generate_summary(text)
+        abstract = generate_summary(text, need_tag)
         while n > 0:
             n -= 1
-            abstract = generate_summary(abstract)
+            abstract = generate_summary(abstract, need_tag)
     else:
         abstract = generate_summary_debug(text)
 

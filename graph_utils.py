@@ -1,11 +1,10 @@
 import networkx as nx
 import numpy as np
 from utils import cosine, pymorphy_tagger, clean_numbers, vectorize_word, getList
-from config import Configuration
+from config import conf
 import operator
 
 
-conf = Configuration()
 stop_words = conf.STOP_WORDS
 model = conf.MODEL
 
