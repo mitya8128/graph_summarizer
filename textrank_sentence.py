@@ -10,13 +10,12 @@ from utils import text_cleaner
 from wordrank import wordrank
 from config import conf
 
-
 stop_words = conf.STOP_WORDS
 
 
 # funcs for TextRank
 def read_article(file_name):
-    #TODO: think about reading files approach
+    # TODO: think about reading files approach
     with open(file_name, 'rb') as f:
         text = f.readlines()
     text = text[0].decode("mac_cyrillic")
@@ -81,9 +80,13 @@ def generate_summary(sentences: list, need_tag: bool) -> list:
 
     ranked_list_notags = []
 
-    for i in range(len(ranked_list)):
-        sent_without_tags = ' '.join([" ".join(word.split("_")[0] for word in s.split()) for s in ranked_list[i][0]])
-        ranked_list_notags.append((sent_without_tags, ranked_list[i][1]))
+    if need_tag:
+        for i in range(len(ranked_list)):
+            sent_without_tags = ' '.join(
+                [" ".join(word.split("_")[0] for word in s.split()) for s in ranked_list[i][0]])
+            ranked_list_notags.append((sent_without_tags, ranked_list[i][1]))
+    else:
+        ranked_list_notags = ranked_list
 
     ranked_list_notags_nonums = []
     for i in range(len(ranked_list_notags)):
@@ -97,7 +100,7 @@ def generate_summary(sentences: list, need_tag: bool) -> list:
     cliques = find_cliques_all(sentence_similarity_graph)
     min_clique = cliques[0]
 
-    snts = []    # но как мы восстановим оригинальные индексы? --> наверное сравнением элементов списка
+    snts = []  # но как мы восстановим оригинальные индексы? --> наверное сравнением элементов списка
     for i in min_clique:
         sent = sentences[i]
         snts.append(sent)
