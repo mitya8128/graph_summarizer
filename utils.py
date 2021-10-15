@@ -1,6 +1,7 @@
 import nltk
 import numpy as np
 import scipy
+import random
 import re
 
 from config import conf
@@ -64,8 +65,7 @@ def vectorize_word(word):
     try:
         vec = model[word]
     except KeyError:
-        # vec = np.random.normal(0, np.sqrt(0.25), 300)
-        vec = np.zeros(300)
+        vec = np.zeros(len(model[random.choice(model.index_to_key)]))
 
     return vec
 
