@@ -7,7 +7,7 @@ Work in progress.
 
 Some code was taken from my [another](https://github.com/mitya8128/nlp_graph) repository.   
 &nbsp; 
-###Main idea:  
+### Main idea:  
 - Extract important words by [wordrank algorithm](https://github.com/mitya8128/graph_summarizer/blob/master/wordrank.py) for each sentences of text 
   - word2vec based word vectorization 
   - build adjacency matrix on top of that (distance between words in sentence)
@@ -19,6 +19,6 @@ Some code was taken from my [another](https://github.com/mitya8128/nlp_graph) re
   - thus with that information we could find the most "informative" sentences (by means of high similarity metric)
 - If necessary you could run whole algorithm several times through text (could be useful if you want to compress text more) - function [*generate_summary_loop*](https://github.com/mitya8128/graph_summarizer/blob/472d70752a572fe7cb71272935072a0149b914b1/textrank_sentence.py#L111) as a full description of pipeline
  &nbsp;  
-###Demos:      
+### Demos:      
 [demo_russian](https://github.com/mitya8128/graph_summarizer/blob/master/demo_russian.ipynb)   
  &nbsp;  
