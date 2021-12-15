@@ -1,7 +1,8 @@
 gensim
-nltk
-numpy  
 networkx
+nltk
+numba
+numpy
 pymorphy2
 russian_tagsets
 scipy

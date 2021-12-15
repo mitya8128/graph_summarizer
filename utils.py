@@ -6,7 +6,7 @@ import re
 
 from config import conf
 from russian_tagsets import converters
-
+from numba import jit
 
 morph = conf.MORPH
 punct = conf.PUNCT
@@ -35,12 +35,21 @@ def pymorphy_tagger(text, stops):
     return ' '.join(parsed)
 
 
+@jit
 def cosine(a, b):
     dot = np.dot(a, b.T)
     norma = np.linalg.norm(a)
     normb = np.linalg.norm(b)
     cos = dot / (norma * normb)
     return cos
+
+
+# wrapper to deal with numba's lack of support for try/except block (see https://github.com/numba/numba/issues/5377)
+def cosine_wrapper(a , b):
+    try:
+        return cosine(a, b)
+    except ZeroDivisionError:
+        return 0
 
 
 def cos_sim(a, b):

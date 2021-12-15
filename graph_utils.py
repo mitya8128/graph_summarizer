@@ -1,6 +1,6 @@
 import networkx as nx
 import numpy as np
-from utils import cosine, pymorphy_tagger, clean_numbers, vectorize_word, getList
+from utils import cosine_wrapper, pymorphy_tagger, clean_numbers, vectorize_word, getList
 from config import conf
 import operator
 
@@ -35,7 +35,7 @@ def adjacency_mat(vertices_list):
     for i in vertices_list:
         for j in vertices_list:
             adj_vec = []
-            vec = cosine(vectorize_word(i), vectorize_word(j))
+            vec = cosine_wrapper(vectorize_word(i), vectorize_word(j))
             adj_vec.append(vec)
             adj_mat.append(adj_vec)
 
